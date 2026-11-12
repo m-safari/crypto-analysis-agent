@@ -24,3 +24,18 @@ def test_get_crypto_list(http, timeout, auth_headers):
 
     # 3. BTC is in there (loose check, works whether the payload is a list or a dict)
     assert "BTC" in r.text
+
+
+def test_get_crypto_data(http, timeout, auth_headers):
+    symbol = "BTC"
+    r = http.get(f"{BASE_URL}/getData?symbol={symbol}", headers=auth_headers, timeout=timeout)
+
+    # 1. request worked
+    assert r.status_code == 200, r.text
+
+    # 2. valid JSON, non-empty
+    data = r.json()
+    assert data, "empty response"
+
+    # 3. BTC is in there (loose check, works whether the payload is a list or a dict)
+    assert "BTC" in r.text
