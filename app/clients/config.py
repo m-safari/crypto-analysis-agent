@@ -3,7 +3,7 @@ import os
 
 from dotenv import load_dotenv
 
-from clients.exceptions import ConfigError
+from app.clients.exceptions import ConfigError
 
 load_dotenv()
 

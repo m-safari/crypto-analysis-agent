@@ -1,5 +1,6 @@
+import json
 import requests
-from clients.exceptions import ApiError, ApiHTTPError
+from app.clients.exceptions import ApiError, ApiHTTPError
 
 DEFAULT_TIMEOUT = 10  # seconds
 
@@ -29,6 +30,6 @@ class BaseClient:
             raise ApiHTTPError(response.status_code, response.text)
 
         try:
-            return response.json()
+            return json.dumps(response.json())
         except ValueError as e:
             raise ApiError(f"Response from {url} is not valid JSON") from e

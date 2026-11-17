@@ -5,3 +5,4 @@ requests
 python-dotenv
 newsapi-python
 pytest
+pydantic_settings
