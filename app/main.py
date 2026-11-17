@@ -10,6 +10,10 @@ def main():
         llm=container.llm,
         tools=tools,
     )
+    
+    png = agent.get_graph().draw_mermaid_png()
+    with open("graph.png", "wb") as f:
+        f.write(png)
 
     config = {
         "configurable": {
