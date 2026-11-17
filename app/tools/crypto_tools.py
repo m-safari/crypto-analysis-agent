@@ -9,11 +9,11 @@ class FreeCryptoTools:
 
     def get_tools(self) -> list:
         return [
-            tool(self.get_crypto_list),
-            tool(self.get_data),
+            tool(self.crypto_list_tool),
+            tool(self.crypto_data_tool),
         ]
 
-    def get_crypto_list(self) -> str:
+    def crypto_list_tool(self) -> str:
         """Get list of supported cryptocurrencies and pairs.
             Args:
                 No input args
@@ -45,7 +45,7 @@ class FreeCryptoTools:
         """
         return self.crypto_client.get_crypto_list()
 
-    def get_data(self, crypto_symbol: str) -> str:
+    def crypto_data_tool(self, crypto_symbol: str) -> str:
         """Get single or multiple cryptocurrencies data.
             Args:
                 currency symbol: str - The symbol of the cryptocurrency to get data for (e.g., BTC, ETH, etc.)

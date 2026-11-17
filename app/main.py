@@ -1,29 +1,39 @@
-import os
-from dotenv import load_dotenv
-from langchain_openai import *
-import httpx
-from app.clients.freecrypto_client import FreeCryptoClient
-from app.tools.crypto_tools import FreeCryptoTools
-from newsapi import NewsApiClient
-from app.tools.news_tools import NewsTools
-
-
 from app.container import AppContainer
+from app.llm.agent import create_agent
 
 def main():
     container = AppContainer()
 
     tools = container.tools
-    # Find a specific tool
-    search_news = next(
-        t for t in tools if t.name == "search_news"
+
+    agent = create_agent(
+        llm=container.llm,
+        tools=tools,
     )
 
-    # Invoke manually
-    result = search_news.invoke({"query": "bitcoin"})
-    print(result)
+    config = {
+        "configurable": {
+            "thread_id": "user-1"
+        }
+    }
 
-    print(container.llm.invoke("say hi in 5 words").content)
+    while True:
+        user_input = input("\nYou: ")
+
+        if user_input.lower() in ("exit", "quit"):
+            break
+
+        response = agent.invoke(
+            {
+                "messages": [
+                    {"role": "user", "content": user_input}
+                ]
+            },
+            config=config,
+        )
+
+        print("\nAssistant:", response["messages"][-1].content)
+
 
 if __name__ == "__main__":
     main()
